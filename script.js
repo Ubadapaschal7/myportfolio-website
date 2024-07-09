@@ -1,12 +1,12 @@
 var tablinks = document.getElementsByClassName("tab-links");
 var tabcontents = document.getElementsByClassName("tab-contents");
 
-
 function opentab(tabname){
-   for(tablink of tablinks){
+   // Use a different variable name inside the loop to avoid conflicts
+   for(let tablink of tablinks){
       tablink.classList.remove("active-link");
    }
-   for(tabcontent of tabcontents){
+   for(let tabcontent of tabcontents){
       tabcontent.classList.remove("active-tab");
    }
    event.currentTarget.classList.add("active-link");
@@ -29,42 +29,61 @@ function closemenu(){
 }
 
 
+// SLIDE SHOW
+const slides = document.querySelectorAll(".slider");
+const nextBtn = document.querySelector(".nextBtn");
+const prevBtn = document.querySelector(".prevBtn");
+
+slides.forEach(function (slides, index) {
+   slides.style.left = `${index * 100}%`;
+});
+
+let counter = 0;
+
+nextBtn.addEventListener("click", function () {
+   counter++;
+   carousel();
+});
+prevBtn.addEventListener("click", function () {
+   counter--;
+   carousel();
+});
+
+function carousel() {
+
+   
+
+   if (counter < slides.length -1) {
+      nextBtn.style.display = "block";
+   } else {
+      nextBtn.style.display = "none";
+   }
+   if (counter > 0) {
+      prevBtn.style.display = "block";
+   } else {
+      prevBtn.style.display = "none";
+   }
+
+
+   slides.forEach(function (slide) {
+      slide.style.transform = `translateX(-${counter * 100}%)`;
+   });
+}
+prevBtn.style.display = "none";
 
 
 
 
 
 
+// google translator
+
+function googleTranslateElementInit(){
+   new google.translate.TranslateElement(
+      {pageLanguage: 'en'},
+      'google_translate_element'
+   );
+}
 
 
 
-
-
-
-
-
-
-
-function isInViewport(element) {
-    const rect = element.getBoundingClientRect();
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-  }
-  
-  function animateBorder() {
-    const subTitle = document.querySelector('.sub-title');
-  
-    if (isInViewport(subTitle)) {
-      subTitle.style.borderBottom = '2px solid rgb(255, 254, 254)';
-      setTimeout(() => {
-        subTitle.style.borderBottom = '2px solid transparent'; // Reset to transparent
-      }, 500); // Adjust the delay (in milliseconds) as needed
-    }
-  }
-  
-  // Attach the scroll event listener to trigger the animation
-  window.addEventListener('scroll', animateBorder);
